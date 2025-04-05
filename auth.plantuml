@@ -1,11 +1,11 @@
 @startuml Auth
 actor User
 
-participant "NextClient" as NextClient
-participant "NextServer" as NextServer
-participant "NextMiddleware" as NextMiddleware
-participant "LaravelAPI" as LaravelAPI
-participant "Database" as Database
+boundary "NextClient" as NextClient
+control "NextServer" as NextServer
+control "NextMiddleware" as NextMiddleware
+control "LaravelAPI" as LaravelAPI
+database "Database" as Database
 
 User -> NextClient: requestAccess()
 NextClient -> NextServer: requestSSR()
