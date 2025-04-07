@@ -5,7 +5,7 @@ boundary "NextClient" as NextClient
 control "NextServer" as NextServer
 control "NextMiddleware" as NextMiddleware
 control "LaravelAPI" as LaravelAPI
-database "Database" as Database
+entity "Database" as Database
 
 User -> NextClient: requestAccess()
 NextClient -> NextServer: requestSSR()
