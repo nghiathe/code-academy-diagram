@@ -5,55 +5,95 @@ class User {
   - id: int
   - name: string
   - email: string
+  - identityCode: string [unique]
   - password: string
-  - role: string
-  + joinCourseClass(cc: CourseClass, role: string): void
+  - role: enum {student, lecturer, admin}
+  + login(username: string, password: string): bool
+  + register(name: string, email: string, password: string, identityCode: string): bool
 }
 
 class RegularClass {
   - id: int
-  - classCode: string
+  - classCode: string [unique]
   - name: string
-  + addStudent(user: User): void
+  - slug: string [unique]
 }
 
 class Course {
   - id: int
-  - courseCode: string
+  - courseCode: string [unique]
   - name: string
-  + getAllExercises(): List<Exercise>
 }
 
 class CourseClass {
   - id: int
+  - courseClassCode: string [unique]
+  - courseClassJoinCode: string [unique]
   - name: string
-  - code: string
-  + assignExercise(ex: Exercise, week: int): void
-  + enrollUser(user: User, role: string): void
+  - description: string
+  - active: bool
+  - startDate: datetime
+  - slug: string [unique]
+  + addStudent(student: User): void
+  + removeStudent(student: User): void
+  + assignExercise(exercise: Exercise, week: int, deadline: datetime): void
 }
 
 class Exercise {
   - id: int
   - title: string
   - description: string
+  - testCases: json
   - isFree: bool
-  + evaluate(code: string): Result
+  + evaluateSubmission(submission: Submission): Result
 }
 
 class Submission {
   - id: int
   - sourceCode: string
+  - language: string
   - status: string
+  - executionTime: double
+  - memoryUsed: int
+  - output: string
+  - judge0Token: string
   + submit(user: User, exercise: Exercise): void
 }
 
+class Language {
+  - id: int
+  - name: string [unique]
+  - judgeLanguageId: int
+}
+
+class Topic {
+  - id: int
+  - name: string [unique]
+}
+
 class CourseAttendant {
+  - id: int
   - role: string
 }
 
 class CourseExercise {
+  - id: int
   - weekNumber: int
+  - isHardDeadline: bool
+  - isActive: bool
   - deadline: datetime
+}
+
+class Conversation {
+  - id: int
+  - name: string
+  - slug: string [unique]
+  + sendMessage(user: User, content: string): void
+}
+
+class Message {
+  - id: int
+  - content: string
 }
 
 ' ========== Relationships ==========
@@ -61,7 +101,7 @@ class CourseExercise {
 ' User - RegularClass: Aggregation (1 User thuộc về 0..1 RegularClass)
 User o--> "0..1" RegularClass : attends
 
-' User - CourseClass: Association qua CourseAttendant (nhiều-nhiều với thông tin bổ sung)
+' User - CourseClass: Association qua CourseAttendant (nhiều-nhiều với thông tin role)
 User "0..*" -- "0..*" CourseClass : enrolled in
 CourseClass "1" o--> "0..*" CourseAttendant : manages
 User "1" o--> "0..*" CourseAttendant : participates
@@ -79,5 +119,20 @@ User "1" --> "0..*" Submission : submits
 
 ' Exercise - Submission: Association (1 Exercise có nhiều Submission)
 Exercise "1" --> "0..*" Submission : evaluated by
+
+' Exercise - Language: Association (nhiều-nhiều qua bảng trung gian)
+Exercise "0..*" -- "0..*" Language : supported by
+
+' Exercise - Topic: Association (nhiều-nhiều qua bảng trung gian)
+Exercise "0..*" -- "0..*" Topic : tagged with
+
+' CourseClass - Conversation: Composition (1 CourseClass sở hữu 1 Conversation)
+CourseClass "1" *--> "1" Conversation : has
+
+' Conversation - Message: Composition (1 Conversation chứa nhiều Message)
+Conversation "1" *--> "0..*" Message : contains
+
+' User - Message: Association (1 User gửi nhiều Message)
+User "1" --> "0..*" Message : sends
 
 @enduml
