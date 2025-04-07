@@ -1,0 +1,83 @@
+@startuml
+
+' ========== Base Classes ==========
+class User {
+  - id: int
+  - name: string
+  - email: string
+  - password: string
+  - role: string
+  + joinCourseClass(cc: CourseClass, role: string): void
+}
+
+class RegularClass {
+  - id: int
+  - classCode: string
+  - name: string
+  + addStudent(user: User): void
+}
+
+class Course {
+  - id: int
+  - courseCode: string
+  - name: string
+  + getAllExercises(): List<Exercise>
+}
+
+class CourseClass {
+  - id: int
+  - name: string
+  - code: string
+  + assignExercise(ex: Exercise, week: int): void
+  + enrollUser(user: User, role: string): void
+}
+
+class Exercise {
+  - id: int
+  - title: string
+  - description: string
+  - isFree: bool
+  + evaluate(code: string): Result
+}
+
+class Submission {
+  - id: int
+  - sourceCode: string
+  - status: string
+  + submit(user: User, exercise: Exercise): void
+}
+
+class CourseAttendant {
+  - role: string
+}
+
+class CourseExercise {
+  - weekNumber: int
+  - deadline: datetime
+}
+
+' ========== Relationships ==========
+
+' User - RegularClass: Aggregation (1 User thuộc về 0..1 RegularClass)
+User o--> "0..1" RegularClass : attends
+
+' User - CourseClass: Association qua CourseAttendant (nhiều-nhiều với thông tin bổ sung)
+User "0..*" -- "0..*" CourseClass : enrolled in
+CourseClass "1" o--> "0..*" CourseAttendant : manages
+User "1" o--> "0..*" CourseAttendant : participates
+
+' Course - CourseClass: Composition (1 Course sở hữu nhiều CourseClass)
+Course "1" *--> "0..*" CourseClass : contains
+
+' CourseClass - Exercise: Association qua CourseExercise (nhiều-nhiều với thông tin bổ sung)
+CourseClass "0..*" -- "0..*" Exercise : includes
+CourseClass "1" o--> "0..*" CourseExercise : schedules
+Exercise "1" o--> "0..*" CourseExercise : assigned to
+
+' User - Submission: Association (1 User nộp nhiều Submission)
+User "1" --> "0..*" Submission : submits
+
+' Exercise - Submission: Association (1 Exercise có nhiều Submission)
+Exercise "1" --> "0..*" Submission : evaluated by
+
+@enduml

@@ -1,0 +1,63 @@
+@startuml
+
+left to right direction
+
+' Định nghĩa các thành phần (chức năng) với cấu trúc phân cấp
+[Code Academy] #..# [Admin]
+[Code Academy] #..# [Giảng viên]
+[Code Academy] #..# [Sinh viên]
+
+' Chức năng của Admin
+' [Admin] #..# [Quản lý người dùng]
+[Admin] #..# [Quản lý học phần & lớp học phần]
+[Admin] #..# [Quản lý người dùng]
+[Admin] #..# [Quản lý bài tập lập trình]
+
+' Chức năng con của Quản lý học phần & lớp học phần
+[Quản lý học phần & lớp học phần] #..# [Thêm/sửa/xóa học phần]
+[Quản lý học phần & lớp học phần] #..# [Thêm/sửa/xóa lớp học phần]
+[Quản lý học phần & lớp học phần] #..# [Giao lớp học phần cho giảng viên]
+[Quản lý học phần & lớp học phần] #..# [Xem danh sách sinh viên lớp học phần]
+
+' Chức năng con của Quản lý người dùng (chi tiết)
+[Quản lý người dùng] #..# [Quản lý giảng viên]
+[Quản lý người dùng] #..# [Quản lý người dùng chung]
+[Quản lý giảng viên] #..# [Thêm giảng viên mới]
+[Quản lý giảng viên] #..# [Gắn/gỡ lớp học phần cho giảng viên]
+[Quản lý người dùng chung] #..# [Thay đổi vai trò]
+[Quản lý người dùng chung] #..# [Thay đổi thông tin email]
+[Quản lý người dùng chung] #..# [Thay đổi thông tin cá nhân]
+
+' Chức năng con của Quản lý bài tập lập trình
+[Quản lý bài tập lập trình] #..# [Thêm/sửa/xóa toàn bộ bài tập]
+[Quản lý bài tập lập trình] #..# [Quản lý bài tập cho lớp học phần]
+[Thêm/sửa/xóa toàn bộ bài tập] #..# [Bài tập cố định]
+[Thêm/sửa/xóa toàn bộ bài tập] #..# [Bài tập do giảng viên thêm]
+[Quản lý bài tập cho lớp học phần] #..# [Thêm/sửa/xoá bài tập]
+
+' Chức năng của Giảng viên
+[Giảng viên] #..# [Quản lý lớp học phần giảng dạy]
+[Giảng viên] #..# [Theo dõi tiến độ]
+[Quản lý lớp học phần giảng dạy] #..# [Quản lý bài tập]
+[Quản lý lớp học phần giảng dạy] #..# [Quản lý sinh viên trong lớp]
+[Theo dõi tiến độ] #..# [Theo dõi tiến độ làm bài]
+[Theo dõi tiến độ] #..# [Xem nội dung nộp bài]
+
+
+[Quản lý thông tin cá nhân] #..# [Chỉnh sửa thông tin cá nhân]
+[Quản lý thông tin cá nhân] #..# [Đổi mật khẩu]
+
+' Chức năng của Sinh viên
+[Sinh viên] #..# [Tham gia lớp học phần]
+[Sinh viên] #..# [Tham gia diễn đàn/cộng đồng]
+[Sinh viên] #..# [Nhận thông báo]
+[Sinh viên] #..# [Quản lý thông tin cá nhân]
+[Tham gia lớp học phần] #..# [Tham gia bằng mã]
+[Tham gia lớp học phần] #..# [Tham gia cuộc trò chuyện chung]
+[Tham gia diễn đàn/cộng đồng] #..# [Chia sẻ bài tập]
+[Nhận thông báo] #..# [Nhận thông báo nội dung quan trọng]
+
+' Tiêu đề biểu đồ
+title Biểu đồ phân rã chức năng của nền tảng
+
+@enduml
