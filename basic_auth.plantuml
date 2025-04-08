@@ -1,6 +1,12 @@
 @startuml
 
-actor User
+skinparam defaultFontSize 18
+skinparam classBorderThickness 2
+skinparam arrowThickness 2
+skinparam classFontSize 18
+skinparam noteFontSize 16
+
+actor "NSD" as User
 boundary "Trình duyệt" as Browser
 control "Next Middleware" as Middleware
 control "Next Server" as NextServer
