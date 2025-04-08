@@ -3,6 +3,9 @@
 skinparam defaultFontSize 18 
 skinparam monochrome true
 skinparam linetype ortho
+skinparam classBorderThickness 2
+skinparam arrowThickness 2
+skinparam classFontSize 18
 
 enum Role {
   student
@@ -159,7 +162,7 @@ User o-- Role
 
 ' User belongs to a regular class
 User o-- RegularClass
-RegularClass *-- "n" User : students
+RegularClass o-- "n" User : students
 
 ' User and CourseClass relationships
 User "n" o-- "n" CourseClass : enrolls in >
