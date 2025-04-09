@@ -162,45 +162,45 @@ User o-- Role
 
 ' User belongs to a regular class
 User o-- RegularClass
-RegularClass o-- "n" User : students
+RegularClass o-- User : students
 
 ' User and CourseClass relationships
-User "n" o-- "n" CourseClass : enrolls in >
-CourseClass "n" o-- "n" User : students
+User o-- CourseClass : enrolls in >
+CourseClass o-- User : students
 
 ' CourseAttendant relationships
 CourseAttendant o-- User
 CourseAttendant o-- CourseClass
 
 ' Course and CourseClass relationships
-Course "1" *-- "n" CourseClass : has >
+Course *-- CourseClass : has >
 
 ' CourseClass and Exercise relationships through CourseExercise
-CourseClass "1" *-- "n" CourseExercise
-CourseExercise o-- "1" Exercise
+CourseClass *-- CourseExercise
+CourseExercise o-- Exercise
 
 ' CourseClass and Conversation
-CourseClass "1" *-- "1" Conversation
+CourseClass *-- Conversation
 
 ' Conversation and Message
-Conversation "1" *-- "n" Message
+Conversation *-- Message
 
 ' User and Message
-User "1" o-- "n" Message : sends >
+User o-- Message : sends >
 
 ' User and Submission
-User "1" o-- "n" Submission : creates >
+User o-- Submission : creates >
 
 ' Exercise and Submission
-Exercise "1" o-- "n" Submission : has >
+Exercise o-- Submission : has >
 
 ' CourseClass and Submission
-CourseClass "1" o-- "n" Submission : contains >
+CourseClass o-- Submission : contains >
 
 ' Exercise and Language (n-to-n)
-Exercise "n" o-- "n" Language
+Exercise o-- Language
 
 ' Exercise and Topic (n-to-n)
-Exercise "n" o-- "n" Topic
+Exercise o-- Topic
 
 @enduml
